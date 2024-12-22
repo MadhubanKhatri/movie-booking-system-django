@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}  
+    Login
+{% endblock %}
+
+{% block body %}
+    <div class="container w-25 my-5">
+        <form>
+            <h3 class="my-3">Login</h3>
+            <div class="mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input type="email" class="form-control border border-dark" id="email" aria-describedby="emailHelp">
+            </div>
+
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input type="password" class="form-control border border-dark" id="password">
+            </div> 
+            
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary w-100">Login</button>
+                <br/>
+                <p>Don't have an account? Register <a href="{% url 'register' %}">here</a>.</p>
+              </div>
+          </form>
+    </div>
+{% endblock %}
