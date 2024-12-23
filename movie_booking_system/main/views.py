@@ -39,7 +39,7 @@ def register(request):
             messages.warning(request, message)
             return render(request, 'register.html')
         else:
-            print("redirect login")
+            new_registration = RegisterUser.objects.create(name=username, email = email, contact=contact_num, password=password)
             return redirect('login')
     else:
         print('no post')
