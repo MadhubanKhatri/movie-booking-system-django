@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Movie Details
+{% endblock %}
+
+{% block body%}
+{% load static %}
+    <header>
+        <h1>{{ movie.title }}</h1>
+    </header>
+    <main>
+        <section>
+            <h2>Movie Details</h2>
+            <p><strong>Title:</strong> {{ movie.title }}</p>
+            <!-- <p><strong>Genre:</strong> {{ movie.genre }}</p>
+            <p><strong>Release Date:</strong> {{ movie.release_date }}</p>
+            <p><strong>Duration:</strong> {{ movie.duration }} minutes</p>
+            <p><strong>Director:</strong> {{ movie.director }}</p>
+            <p><strong>Cast:</strong> {{ movie.cast }}</p>
+            <p><strong>Synopsis:</strong> {{ movie.synopsis }}</p> -->
+        </section>
+        <section>
+            <h2>Book Tickets</h2>
+            <form action="" method="post">
+                {% csrf_token %}
+                <label for="showtime">Select Showtime:</label>
+                <select name="showtime" id="showtime">
+                    {% for showtime in movie.showtimes %}
+                        <option value="{{ showtime.id }}">{{ showtime.time }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit">Book Now</button>
+            </form>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2023 Movie Booking System</p>
+    </footer>
+{% endblock %}

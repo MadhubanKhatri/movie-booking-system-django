@@ -6,16 +6,17 @@
 
 {% block body %}
     <div class="container w-25 my-5">
-        <form>
+        <form action="{% url 'login' %}" method="post">
+          {% csrf_token %}
             <h3 class="my-3">Login</h3>
             <div class="mb-3">
               <label for="email" class="form-label">Email</label>
-              <input type="email" class="form-control border border-dark" id="email" aria-describedby="emailHelp">
+              <input type="email" class="form-control border border-dark" name="email" id="email">
             </div>
 
             <div class="mb-3">
               <label for="password" class="form-label">Password</label>
-              <input type="password" class="form-control border border-dark" id="password">
+              <input type="password" class="form-control border border-dark" name="password" id="password">
             </div> 
             
             <div class="mb-3">

@@ -9,51 +9,33 @@
 <div class="container my-5">
 
     <div class="mb-3 row">
-        <h2>Movies</h2>
-        <div class="col-5">
-            <input type="text" class="form-control" id="exampleInputSearch" placeholder="Enter City">
+      <h2>Movies</h2>
+      <form action="{% url 'all_movies' %}" method="GET" class="d-flex">
+        <div class="col">
+          <input type="text" class="form-control" name="movie" placeholder="Search Movie">
         </div>
-
-        <div class="col-5">
-            <input type="text" class="form-control" id="exampleInputSearch" placeholder="Search Movie">
+        <div class="col-auto">
+          <input type="submit" value="Search" class="btn btn-primary"/>
         </div>
-        
-        <div class="col-2">
-            <input type="submit" value="Search" class="btn btn-primary"/>
-        </div>
+      </form>
     </div>
 
     <hr/>
 
     <div class="row w-100">
-      <div class="col-4">
-        <div class="card" style="width: 18rem;">
-          <img src="{% static 'captain_america_2.jpg' %}" class="card-img-top" alt="...">
-          <div class="card-body">
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <a href="#" class="btn btn-primary">Book Now</a>
+      {% for movie in search_results %}
+        <div class="col-4">
+          <div class="card" style="width: 18rem;">
+            <img src="{% static 'captain_america_2.jpg' %}" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h3>{{movie.name}}</h3>
+              <p class="card-text">{{movie.description|truncatechars:35}}</p>
+              <a href="{% url 'movie_detail' movie.id %}" class="btn btn-primary">Book Now</a>
+            </div>
           </div>
         </div>
-      </div>
-  
-      <div class="col-4">
-        <div class="card" style="width: 18rem;">
-          <img src="{% static 'captain_america_2.jpg' %}" class="card-img-top" alt="...">
-          <div class="card-body">
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <a href="#" class="btn btn-primary">Book Now</a>
-          </div>
-        </div>
-      </div>
-      <div class="col-4">
-        <div class="card" style="width: 18rem;">
-          <img src="{% static 'captain_america_2.jpg' %}" class="card-img-top" alt="...">
-          <div class="card-body">
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <a href="#" class="btn btn-primary">Book Now</a>
-          </div>
-        </div>
-      </div>
+      {% endfor %}
+            
     </div>
 
 {% endblock %}
