@@ -1,0 +1,40 @@
+.movie-banner {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    background: linear-gradient(135deg, #6a1b9a, #8e24aa);
+    color: #fff;
+}
+
+.movie-banner img {
+    width: 200px;
+    height: auto;
+    border-radius: 10px;
+    margin-right: 20px;
+}
+
+.movie-banner .movie-info h1 {
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+.movie-banner .movie-info p {
+    margin: 5px 0;
+    line-height: 1.6;
+}
+
+.showtime-btn {
+    background-color: #ffb300;
+    color: #fff;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: bold;
+    display: inline-block;
+    margin: 5px 5px 0 0;
+}
+
+.showtime-btn:hover {
+    background-color: #ffa000;
+}

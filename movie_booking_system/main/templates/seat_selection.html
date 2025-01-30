@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    Seat Selection
+{% endblock %}
+
+{% block link %}
+    <link rel="stylesheet" href="{% static 'css/seat_selection.css' %}">
+{% endblock %}
+    
+    
+{% block body%}
+
+<div class="seat_container">
+    <h2 class="movie-name">Selected Movie: {{movie.name}}</h2>
+    <h3>Seat Selection</h1>
+    <div class="screen">Screen This Way</div>
+
+    <div class="seat-row">
+        <div class="seat" data-seat="J1" id="J1">J1</div>
+        <div class="seat" data-seat="J2" id="J2">J2</div>
+        <div class="seat" data-seat="J3" id="J3">J3</div>
+        <div class="seat" data-seat="J4" id="J4">J4</div>
+        <div class="seat" data-seat="J5" id="J5">J5</div>
+        <div class="seat" data-seat="J6" id="J6">J6</div>
+        <div class="seat" data-seat="J7" id="J7">J7</div>
+        <div class="seat" data-seat="J8" id="J8">J8</div>
+        <div class="seat" data-seat="J9" id="J9">J9</div>
+        <div class="seat" data-seat="J10" id="J10">J10</div>
+    </div>
+
+    <div class="seat-row">
+        <div class="seat" data-seat="J11" id="J11">J11</div>
+        <div class="seat" data-seat="J12" id="J12">J12</div>
+        <div class="seat" data-seat="J13" id="J13">J13</div>
+        <div class="seat" data-seat="J14" id="J14">J14</div>
+        <div class="seat" data-seat="J15" id="J15">J15</div>
+        <div class="seat" data-seat="J16" id="J16">J16</div>
+        <div class="seat" data-seat="J17" id="J17">J17</div>
+        <div class="seat" data-seat="J18" id="J18">J18</div>
+        <div class="seat" data-seat="J19" id="J19">J19</div>
+        <div class="seat" data-seat="J20" id="J20">J20</div>
+    </div>
+
+    <div class="seat-row">
+        <div class="seat" data-seat="J21" id="J21">J21</div>
+        <div class="seat" data-seat="J22" id="J22">J22</div>
+        <div class="seat" data-seat="J23" id="J23">J23</div>
+        <div class="seat" data-seat="J24" id="J24">J24</div>
+        <div class="seat" data-seat="J25" id="J25">J25</div>
+        <div class="seat" data-seat="J26" id="J26">J26</div>
+        <div class="seat" data-seat="J27" id="J27">J27</div>
+        <div class="seat" data-seat="J28" id="J28">J28</div>
+        <div class="seat" data-seat="J29" id="J29">J29</div>
+        <div class="seat" data-seat="J30" id="J30">J30</div>
+    </div>
+
+    <div class="footer">
+        <button id="confirm-selection">Proceed to Checkout</button>
+    </div>
+</div>
+
+
+{% endblock %}

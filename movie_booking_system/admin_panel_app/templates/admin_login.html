@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}  
+    Admin Login
+{% endblock %}
+
+{% block body %}
+    <div class="container w-25 my-5">
+        <form action="{% url 'admin_login' %}" method="post">
+          {% csrf_token %}
+            <h3 class="my-3">Admin Login</h3>
+            <div class="mb-3">
+              <label for="uname" class="form-label">Username</label>
+              <input type="text" class="form-control border border-dark" name="uname" id="uname">
+            </div>
+
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input type="password" class="form-control border border-dark" name="password" id="password">
+            </div> 
+            
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary w-100">Login</button>    
+            </div>
+          </form>
+    </div>
+{% endblock %}

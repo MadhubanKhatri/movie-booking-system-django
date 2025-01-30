@@ -1,40 +1,76 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block title %}
     Movie Details
 {% endblock %}
 
+{% block link %}
+<link rel="stylesheet" href="{% static 'css/movie_detail.css' %}">
+{% endblock %}
+
 {% block body%}
 {% load static %}
-    <header>
-        <h1>{{ movie.title }}</h1>
-    </header>
-    <main>
-        <section>
-            <h2>Movie Details</h2>
-            <p><strong>Title:</strong> {{ movie.title }}</p>
-            <!-- <p><strong>Genre:</strong> {{ movie.genre }}</p>
-            <p><strong>Release Date:</strong> {{ movie.release_date }}</p>
-            <p><strong>Duration:</strong> {{ movie.duration }} minutes</p>
-            <p><strong>Director:</strong> {{ movie.director }}</p>
-            <p><strong>Cast:</strong> {{ movie.cast }}</p>
-            <p><strong>Synopsis:</strong> {{ movie.synopsis }}</p> -->
-        </section>
-        <section>
-            <h2>Book Tickets</h2>
-            <form action="" method="post">
-                {% csrf_token %}
-                <label for="showtime">Select Showtime:</label>
-                <select name="showtime" id="showtime">
-                    {% for showtime in movie.showtimes %}
-                        <option value="{{ showtime.id }}">{{ showtime.time }}</option>
-                    {% endfor %}
-                </select>
-                <button type="submit">Book Now</button>
-            </form>
-        </section>
-    </main>
-    <footer>
-        <p>&copy; 2023 Movie Booking System</p>
-    </footer>
+<div class="container movie-container shadow rounded bg-white my-4">
+    <div class="movie-banner d-flex" style="height: 300px;">
+        <img src="{% static 'captain_america_2.jpg' %}" alt="Movie Poster">
+        <div class="movie-info mx-5">
+            <h1>{{movie.name}}</h1>
+            <p>Language: {{movie.langauge}}</p>
+            <p>Genre: {{movie.genre}}</p>
+            <p>Duration: {{movie.duration}}</p>
+            <p>Director: {{movie.director}}</p>
+            <p>Release Date: {{movie.release_date}}</p>
+        </div>
+    </div>
+
+
+    <div class="showtimes-section py-3">
+        <h2 class="text-primary mb-3">Showtimes</h2>
+        <table class="table table-bordered">
+            <thead class="bg-primary text-white">
+                <tr>
+                    <th>Theatre</th>
+                    <th>Location</th>
+                    <th>Showtimes</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for show in shows %}
+                    <tr>
+                        <td>{{show.theatre.name}}</td>
+                        <td>{{show.theatre.address}}</td>
+                        <td>
+                            <a href="{% url 'seat_selection' show.movie.id show.movie.name %}" data-show-time="{{ show.time }}"
+                            onclick="handleShowTimeClick(event, this)" class="btn btn-warning btn-sm">{{show.time|date:"h:i A"}}</a>
+                            <!-- <a href="{% url 'seat_selection' show.movie.id show.movie.name %}" class="btn btn-warning btn-sm">{{show.time|date:"h:i A"}}</a> -->
+                        </td>
+                    </tr>
+                {% endfor %}
+                
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        localStorage.setItem("movie_id", "{{movie.id}}");
+        localStorage.setItem("user", "{{request.session.email}}")
+    });
+
+    function handleShowTimeClick(event, element){
+        event.preventDefault(); // Prevent the default navigation
+        const showTime = element.getAttribute("data-show-time");
+        if(showTime == 'noon'){
+            localStorage.setItem('show_time', "12 p.m.");
+        }else if(showTime == 'midnight'){
+            localStorage.setItem('show_time', "00 a.m.");
+        }else{
+            localStorage.setItem('show_time', showTime);
+        }
+        window.location.href = `/movie_detail/select_seat/{{movie.id}}/{{movie.name}}/`;
+    }
+
+</script>
+
 {% endblock %}
