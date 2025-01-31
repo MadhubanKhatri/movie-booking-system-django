@@ -52,7 +52,7 @@ class Show(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     
     def __str__(self):
-        return self.movie.name
+        return self.theatre.name
     
 
 
@@ -69,7 +69,7 @@ class Booking(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     
     def __str__(self):
-        return self.movie.name
+        return self.show.theatre.name
 
 
 

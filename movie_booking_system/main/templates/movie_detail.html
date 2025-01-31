@@ -42,7 +42,6 @@
                         <td>
                             <a href="{% url 'seat_selection' show.movie.id show.movie.name %}" data-show-time="{{ show.time }}"
                             onclick="handleShowTimeClick(event, this)" class="btn btn-warning btn-sm">{{show.time|date:"h:i A"}}</a>
-                            <!-- <a href="{% url 'seat_selection' show.movie.id show.movie.name %}" class="btn btn-warning btn-sm">{{show.time|date:"h:i A"}}</a> -->
                         </td>
                     </tr>
                 {% endfor %}
@@ -68,7 +67,31 @@
         }else{
             localStorage.setItem('show_time', showTime);
         }
-        window.location.href = `/movie_detail/select_seat/{{movie.id}}/{{movie.name}}/`;
+
+        fetch("/booked-seats/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": getCookie("csrftoken")  // Ensure CSRF protection
+          },
+          body: JSON.stringify({ user: localStorage.getItem('user'), movieId: localStorage.getItem('movie_id'), 
+                                    showTime: localStorage.getItem('show_time') })
+        }).then(response => response.json())
+        .then(data => {
+          console.log(data); // Logs the JSON response
+          if (data.status=="Booked") {
+            localStorage.setItem('booked_seats', data.booked_seats);
+            // data.booked_seats.forEach(seat => {
+            //     console.log(seat);
+            // //   document.getElementById(seat).classList.add("booked");
+            // });
+          } else {
+            alert("Error occurred while booking.");
+          }
+          window.location.href = `/movie_detail/select_seat/{{movie.id}}/{{movie.name}}/`;
+        });
+
+        
     }
 
 </script>

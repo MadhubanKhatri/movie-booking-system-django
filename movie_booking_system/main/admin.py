@@ -14,7 +14,7 @@ class RegisterUserAdmin(admin.ModelAdmin):
 
 class BookingAdmin(admin.ModelAdmin):
     # Display fields in the list view
-    list_display = ('user', 'movie', 'date', 'time', 'seats', 'amount', 'status')
+    list_display = ('user', 'movie','show', 'date', 'time', 'seats', 'amount', 'status')
 
     # Add search functionality
     search_fields = ('user', 'movie')

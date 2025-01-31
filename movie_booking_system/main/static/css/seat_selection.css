@@ -27,14 +27,14 @@
     margin: 3px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    background-color: #eee;
+    background-color: #6ce971;
     text-align: center;
     line-height: 30px;
     cursor: pointer;
 }
 
 .seat.selected {
-    background-color: #6cce6c;
+    background-color: #6ca3e9;
 }
 
 .seat.occupied {

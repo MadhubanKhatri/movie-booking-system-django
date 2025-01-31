@@ -117,7 +117,7 @@ def book_seats(request):
 
         IsSeatBooked = False
 
-        existing_bookings = Booking.objects.filter(movie=movie_obj,show=show_obj,date=current_date)
+        existing_bookings = Booking.objects.filter(movie=movie_obj,show=show_obj,date=current_date,time=show_time)
             
 
         booked_seats = set()
@@ -134,10 +134,44 @@ def book_seats(request):
             Booking.objects.create(user=user_obj,movie=movie_obj,show=show_obj,date=current_date,time=show_time,
                                seats=",".join(map(str, selected_seats)),amount=amount, status=True)
             return JsonResponse({"message": "Seats booked successfully", "seats": selected_seats})
-        
-       
-        # print(data)
-        # print(selected_seats)
-        
+                
         
     return JsonResponse({"error": "Invalid request"}, status=400)
+
+@csrf_exempt
+def booked_seats(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        
+        user  = data.get("user")
+        movieID = data.get("movieId")
+        show_time = data.get("showTime")    
+        show_time = show_time.replace("p.m.", "PM").replace("a.m.", "AM").replace(".", "")
+        show_time = datetime.strptime(show_time, "%I %p").strftime("%H:%M:%S")
+        current_date = datetime.now().strftime("%Y-%m-%d")
+        
+        user_obj = RegisterUser.objects.get(email=user)
+        movie_obj = Movie.objects.get(id=movieID)
+        show_obj = Show.objects.get(movie=movie_obj, time=show_time)
+        print(show_time)
+        existing_bookings = Booking.objects.filter(movie=movie_obj,show=show_obj,date=current_date,time=show_time)
+        print(existing_bookings)
+        booked_seats = set()
+        for booking in existing_bookings:
+            booked_seats.update(booking.seats.split(","))
+        print("booked: ",booked_seats)
+        return JsonResponse({"status": "Booked", "seats": "Seats are already booked.", "booked_seats": list(booked_seats)})
+    else:
+        pass
+    
+    return JsonResponse({"error": "Invalid request"}, status=400)
+
+
+
+def booking_history(request):
+    if 'email' in request.session:
+        user = RegisterUser.objects.get(email=request.session['email'])
+        bookings = Booking.objects.filter(user=user).order_by('-created_at')
+        return render(request, 'bookings.html', {'bookings': bookings})
+    else:
+        return redirect('login')
