@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+    Bookings
+{% endblock %}
+
+{% block body %}
+    <div class="container table-bordered border my-3 px-5 py-5">
+        <div class="row">
+            <div class="col">
+                <h2 class="inline">Bookings History</h2>
+            </div>
+
+            <div class="col">
+                <a href="{% url 'all_movies' %}" class="btn btn-primary float-end">Back to Dashboard</a>
+            </div>
+        </div>
+        
+        
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Movie</th>
+                <th scope="col">Theatre</th>
+                <th scope="col">Datetime</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Status</th>
+                <th scope="col">Timing</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for booking in bookings %}
+                    <tr>
+                        <th scope="row">{{forloop.counter}}</th>
+                        <td>{{booking.movie.name}}</td>
+                        <td>{{booking.show.theatre.name}}</td>
+                        <td>{{booking.date}}, {{booking.time}}</td>
+                        <td>{{booking.amount}}</td>
+                        <td>
+                            {% if booking.status == True %}  
+                                Booked
+                            {% else %}
+                                Pending
+                            {% endif%}
+                        </td>
+                        <td>{{booking.created_at}}</td>
+                    </tr>  
+                {% endfor %}
+              
+            </tbody>
+          </table>
+    </div>
+{% endblock %}

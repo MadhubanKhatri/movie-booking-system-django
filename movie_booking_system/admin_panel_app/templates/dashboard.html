@@ -1,268 +1,130 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'admin_base.html' %}
+{% load static%}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel - Manage Movies</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #1e1e2f;
-            color: #f8f9fa;
-            margin: 0;
-            padding: 0;
-        }
+{% block body %}
+<div class="main-content">
+    <h1 class="mb-4">Dashboard</h1>
 
-        .sidebar {
-            width: 250px;
-            background-color: #252540;
-            height: 100vh;
-            position: fixed;
-            top: 0;
-            left: 0;
-            padding: 20px;
-            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
-        }
-
-        .sidebar h2 {
-            color: #ff6f61;
-            font-size: 24px;
-            margin-bottom: 30px;
-        }
-
-        .sidebar a {
-            color: #d1d1e0;
-            text-decoration: none;
-            display: block;
-            padding: 10px 0;
-            font-size: 16px;
-        }
-
-        .sidebar a:hover {
-            color: #ff6f61;
-        }
-
-        .main-content {
-            margin-left: 270px;
-            padding: 20px;
-        }
-
-        .table-container {
-            background-color: #2e2e4d;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .table th, .table td {
-            color: #d1d1e0;
-            border-color: #3d3d5c;
-        }
-
-        .btn-primary {
-            background-color: #ff6f61;
-            border: none;
-        }
-
-        .btn-primary:hover {
-            background-color: #ff4a3d;
-        }
-
-        .modal-content {
-            background-color: #2e2e4d;
-            color: #f8f9fa;
-        }
-
-        .modal-header {
-            border-bottom: 1px solid #3d3d5c;
-        }
-
-        .modal-footer {
-            border-top: 1px solid #3d3d5c;
-        }
-
-        .form-control {
-            background-color: #252540;
-            color: #f8f9fa;
-            border: 1px solid #3d3d5c;
-        }
-
-        .form-control:focus {
-            background-color: #252540;
-            color: #f8f9fa;
-            box-shadow: none;
-            border-color: #ff6f61;
-        }
-    </style>
-</head>
-
-<body>
-    <div class="sidebar">
-        <h2>Admin Panel</h2>
-        <a href="#">Dashboard</a>
-        <a href="#">Movies</a>
-        <a href="#">Users</a>
-        <a href="#">Reports</a>
-        <a href="#">Settings</a>
-        <a href="{% url 'admin_logout' %}">Logout</a>
-    </div>
-
-    <div class="main-content">
-        <h1 class="mb-4">Manage Movies</h1>
-
-        <div class="table-container">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <h2 class="h4">Movie List</h2>
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addMovieModal">Add Movie</button>
+    <div class="table-container">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="card" style="width: 15rem;">
+                <div class="card-body">
+                    
+                    <h5 class="card-title">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-building" viewBox="0 0 16 16">
+                            <path d="M4 2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zM4 5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zM7.5 5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm2.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zM4.5 8a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm2.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5z"/>
+                            <path d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1zm11 0H3v14h3v-2.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5V15h3z"/>
+                          </svg> Total Shows</h5>
+                    <h3 class="card-subtitle mb-2 mx-4 text-body-secondary">{{shows_count}}</h3>
+                    
+                </div>
+            </div>
+            
+            <div class="card" style="width: 15rem;">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-rolodex" viewBox="0 0 16 16">
+                            <path d="M8 9.05a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5"/>
+                            <path d="M1 1a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h.5a.5.5 0 0 0 .5-.5.5.5 0 0 1 1 0 .5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5.5.5 0 0 1 1 0 .5.5 0 0 0 .5.5h.5a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1H6.707L6 1.293A1 1 0 0 0 5.293 1zm0 1h4.293L6 2.707A1 1 0 0 0 6.707 3H15v10h-.085a1.5 1.5 0 0 0-2.4-.63C11.885 11.223 10.554 10 8 10c-2.555 0-3.886 1.224-4.514 2.37a1.5 1.5 0 0 0-2.4.63H1z"/>
+                          </svg> Total Users</h5>
+                          <h3 class="card-subtitle mb-2 mx-4 text-body-secondary">{{users_count}}</h3>
+                    
+                </div>
             </div>
 
-            <table class="table table-dark table-hover">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Movie Name</th>
-                        <th>Genre</th>
-                        <th>Director</th>
-                        <th>Duration</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for movie in movies %}
-                        <tr>
-                            <td>{{movie.id}}</td>
-                            <td>{{movie.name}}</td>
-                            <td>{{movie.genre}}</td>
-                            <td>{{movie.director}}</td>
-                            <td>{{movie.duration}}</td>
-                            <td>
-                                <a class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editMovieModal{{movie.id}}">Edit</a>
-                                <a href="{% url 'delete_movie' movie.id %}" class="btn btn-sm btn-danger">Delete</a>
-                            </td>
-                        </tr>
+            <div class="card" style="width: 15rem;">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-ticket-detailed-fill" viewBox="0 0 16 16">
+                            <path d="M0 4.5A1.5 1.5 0 0 1 1.5 3h13A1.5 1.5 0 0 1 16 4.5V6a.5.5 0 0 1-.5.5 1.5 1.5 0 0 0 0 3 .5.5 0 0 1 .5.5v1.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 11.5V10a.5.5 0 0 1 .5-.5 1.5 1.5 0 1 0 0-3A.5.5 0 0 1 0 6zm4 1a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 0-1h-7a.5.5 0 0 0-.5.5m0 5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 0-1h-7a.5.5 0 0 0-.5.5M4 8a1 1 0 0 0 1 1h6a1 1 0 1 0 0-2H5a1 1 0 0 0-1 1"/>
+                          </svg> Total Tickets</h5>
+                          <h3 class="card-subtitle mb-2 mx-4 text-body-secondary">{{tickets_count}}</h3>
+                </div>
+            </div>
 
-                        <!-- Edit Movie Modal -->
-                        <div class="modal fade" id="editMovieModal{{movie.id}}" tabindex="-1" aria-labelledby="editMovieModalLabel{{movie.id}}" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="editMovieModalLabel{{movie.id}}">Edit Movie</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form action="{% url 'edit_movie' movie.id %}" method="post">
-                                            {% csrf_token %}
-                                            <div class="mb-3">
-                                                <label for="movieName" class="form-label">Movie Name</label>
-                                                <input type="text" class="form-control" value="{{movie.name}}" id="movieName" name="movie_name" required>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="genre" class="form-label">Genre</label>
-                                                <input type="text" class="form-control" value="{{movie.genre}}" id="genre" name="genre" required>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="director" class="form-label">Director</label>
-                                                <input type="text" class="form-control" value="{{movie.director}}" id="director" name="director" required>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="duration" class="form-label">Duration</label>
-                                                <input type="text" class="form-control" value="{{movie.duration}}" id="duration" name="duration" required>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="language" class="form-label">Language</label>
-                                                <input type="text" class="form-control" value="{{movie.langauge}}" id="language" name="language" required>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="cast" class="form-label">Cast</label>
-                                                <input type="text" class="form-control" value="{{movie.cast}}" id="cast" name="cast" required>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="release_date" class="form-label">Release Date</label>
-                                                <input type="date" class="form-control" value="{{movie.release_date|date:'Y-m-d'}}" id="release_date" name="release_date" required>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="description" class="form-label">Description</label>
-                                                <textarea class="form-control" id="description" name="description" required>{{movie.description}}</textarea>
-                                            </div>
-                                        
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                        <button type="submit" class="btn btn-primary">Update</button>
-                                    </div>
-                                </form>
+            <div class="card" style="width: 15rem;">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-currency-rupee" viewBox="0 0 16 16">
+                            <path d="M4 3.06h2.726c1.22 0 2.12.575 2.325 1.724H4v1.051h5.051C8.855 7.001 8 7.558 6.788 7.558H4v1.317L8.437 14h2.11L6.095 8.884h.855c2.316-.018 3.465-1.476 3.688-3.049H12V4.784h-1.345c-.08-.778-.357-1.335-.793-1.732H12V2H4z"/>
+                          </svg> Total Revenue</h5>
+                          <h3 class="card-subtitle mb-2 mx-4 text-body-secondary">{{revenue}} 
+                            <span style="font-size: 1.3rem;">Rs.</span></h3>
+                          
+                </div>
+            </div>
+        </div>
+
+        
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="card my-4" style="width: 15rem;">
+                    <div class="card-body">            
+                        <h5 class="card-title">Most Booked Shows</h5>
+                        {% for show in most_booked_show %}
+                            <div class="row">
+                                <div class="col-9">
+                                    <h6 title="{{show.movie__name}}" class="card-subtitle mb-2  text-body-secondary">
+                                        {{show.movie__name}}
+                                    </h6>
+                                </div>
+                                <div class="col-3">
+                                    <h6 class="card-subtitle mb-2  text-body-secondary">{{show.total_bookings}}</h6>
                                 </div>
                             </div>
-                        </div>
-                    {% endfor %}
-                    
-                    <!-- Additional rows can go here -->
-                </tbody>
-            </table>
-        </div>
-    </div>
+                        {% endfor %}
+                </div>
+            </div>
+            </div>
 
-    <!-- Add Movie Modal -->
-    <div class="modal fade" id="addMovieModal" tabindex="-1" aria-labelledby="addMovieModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="addMovieModalLabel">Add New Movie</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="col">
+                <div class="card my-4" style="width: 15rem;">
+                    <div class="card-body">            
+                        <h5 class="card-title">Most Booked Theatres</h5>
+                        {% for theatre in most_booked_theatres %}
+                            <div class="row">
+                                <div class="col-9">
+                                    <h6 title="{{theatre.movie__name}}" class="card-subtitle mb-2  text-body-secondary">
+                                        {{theatre.show__theatre__name}}
+                                    </h6>
+                                </div>
+                                <div class="col-3">
+                                    <h6 class="card-subtitle mb-2  text-body-secondary">{{theatre.total_bookings}}</h6>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
                 </div>
-                <div class="modal-body">
-                    <form action="{% url 'add_movie' %}" method="post">
-                        {% csrf_token %}
-                        <div class="mb-3">
-                            <label for="movieName" class="form-label">Movie Name</label>
-                            <input type="text" class="form-control" id="movieName" name="movie_name" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="genre" class="form-label">Genre</label>
-                            <input type="text" class="form-control" id="genre" name="genre" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="director" class="form-label">Director</label>
-                            <input type="text" class="form-control" id="director" name="director" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="duration" class="form-label">Duration</label>
-                            <input type="text" class="form-control" id="duration" name="duration" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="language" class="form-label">Language</label>
-                            <input type="text" class="form-control" id="language" name="language" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="cast" class="form-label">Cast</label>
-                            <input type="text" class="form-control" id="cast" name="cast" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="release_date" class="form-label">Release Date</label>
-                            <input type="date" class="form-control" id="release_date" name="release_date" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="description" class="form-label">Description</label>
-                            <textarea class="form-control" id="description" name="description" required></textarea>
-                        </div>
-                    
+            </div>
+
+            <div class="col">
+                <div class="card my-4" style="width: 15rem;">
+                    <div class="card-body">            
+                        <h5 class="card-title">Active Users</h5>
+                        {% for user in active_users %}
+                            <div class="row">
+                                <div class="col">
+                                    <h6 title="{{user.user__email}}" class="card-subtitle mb-2  text-body-secondary">
+                                        {{user.user__email}}
+                                    </h6>
+                                </div>
+                                
+                            </div>
+                        {% endfor %}
+                    </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save</button>
-                </div>
-            </form>
             </div>
         </div>
+        
+
+        
     </div>
+</div>
 
 
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
 
-</html>
+{% endblock %}

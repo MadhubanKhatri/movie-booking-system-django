@@ -1,7 +1,10 @@
 from django.shortcuts import render,redirect
 from django.contrib import messages
 from .models import RegisterUser, Movie,Booking,Show
-
+import json
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from datetime import datetime
 # Create your views here.
 
 def home(request):
@@ -71,7 +74,7 @@ def register(request):
                 messages.warning(request, 'User exists already. Contact number or Email must be unique.')
                 return render(request, 'register.html')
             else:
-                new_registration = RegisterUser.objects.create(name=username, email = email, contact=contact_num, password=password)
+                RegisterUser.objects.create(name=username, email = email, contact=contact_num, password=password)
                 return redirect('login')
     else:
         return render(request, 'register.html')
@@ -92,10 +95,7 @@ def seat_selection(request, movie_id, movie_name):
     params = {'movie': movie}
     return render(request, 'seat_selection.html', params)
 
-import json
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-from datetime import datetime
+
 
 @csrf_exempt
 def book_seats(request):
@@ -105,34 +105,37 @@ def book_seats(request):
         selected_seats = data.get("seats", [])
         user  = data.get("user")
         movieID = data.get("movieId")
+        booking_date = data.get("booking_date")
         show_time = data.get("showTime")    
         show_time = show_time.replace("p.m.", "PM").replace("a.m.", "AM").replace(".", "")
         show_time = datetime.strptime(show_time, "%I %p").strftime("%H:%M:%S")
-        current_date = datetime.now().strftime("%Y-%m-%d")
+        # current_date = datetime.now().strftime("%Y-%m-%d")
         amount = len(selected_seats) * 100
+
+        date_obj = datetime.strptime(booking_date, "%d-%m-%Y")
+
+        # formatted_date = date_obj.strftime("%b. %d, %Y")
+        # print("Formatted Date:", formatted_date) 
 
         user_obj = RegisterUser.objects.get(email=user)
         movie_obj = Movie.objects.get(id=movieID)
         show_obj = Show.objects.get(movie=movie_obj, time=show_time)
 
-        IsSeatBooked = False
+        existing_bookings = Booking.objects.filter(movie=movie_obj,show=show_obj,date=date_obj,time=show_time)
 
-        existing_bookings = Booking.objects.filter(movie=movie_obj,show=show_obj,date=current_date,time=show_time)
-            
 
         booked_seats = set()
         for booking in existing_bookings:
             booked_seats.update(booking.seats.split(","))
-
+        
         # Check for intersection of selected seats with already booked seats
         conflict_seats = set(selected_seats) & booked_seats
-        print("conflict: ",conflict_seats)
+        
         if conflict_seats:
-            
             return JsonResponse({"message": "Seats are already booked.", "status": "booked"})
         else:
-            Booking.objects.create(user=user_obj,movie=movie_obj,show=show_obj,date=current_date,time=show_time,
-                               seats=",".join(map(str, selected_seats)),amount=amount, status=True)
+            Booking.objects.create(user=user_obj,movie=movie_obj,show=show_obj,date=date_obj,time=show_time,
+                                seats=",".join(map(str, selected_seats)),amount=amount, status=True)
             return JsonResponse({"message": "Seats booked successfully", "seats": selected_seats})
                 
         
@@ -145,21 +148,26 @@ def booked_seats(request):
         
         user  = data.get("user")
         movieID = data.get("movieId")
-        show_time = data.get("showTime")    
+        booking_date = data.get("booking_date")
+        show_time = data.get("showTime")  
+
         show_time = show_time.replace("p.m.", "PM").replace("a.m.", "AM").replace(".", "")
-        show_time = datetime.strptime(show_time, "%I %p").strftime("%H:%M:%S")
-        current_date = datetime.now().strftime("%Y-%m-%d")
-        
+
+        show_time = datetime.strptime(show_time, "%I %p").time()
+
+
+        date_obj = datetime.strptime(booking_date, "%d-%m-%Y")
+        formatted_date = date_obj.strftime("%Y-%m-%d")
         user_obj = RegisterUser.objects.get(email=user)
         movie_obj = Movie.objects.get(id=movieID)
         show_obj = Show.objects.get(movie=movie_obj, time=show_time)
         print(show_time)
-        existing_bookings = Booking.objects.filter(movie=movie_obj,show=show_obj,date=current_date,time=show_time)
+        existing_bookings = Booking.objects.filter(movie=movie_obj,show=show_obj,date=formatted_date,time=show_time)
         print(existing_bookings)
         booked_seats = set()
         for booking in existing_bookings:
             booked_seats.update(booking.seats.split(","))
-        print("booked: ",booked_seats)
+
         return JsonResponse({"status": "Booked", "seats": "Seats are already booked.", "booked_seats": list(booked_seats)})
     else:
         pass

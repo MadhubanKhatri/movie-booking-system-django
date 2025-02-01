@@ -31,7 +31,8 @@
                 <tr>
                     <th>Theatre</th>
                     <th>Location</th>
-                    <th>Showtimes</th>
+                    <th>Show Date</th>
+                    <th>Show Timings</th>
                 </tr>
             </thead>
             <tbody>
@@ -39,6 +40,7 @@
                     <tr>
                         <td>{{show.theatre.name}}</td>
                         <td>{{show.theatre.address}}</td>
+                        <td class="current-date">{{show.date}}</td>
                         <td>
                             <a href="{% url 'seat_selection' show.movie.id show.movie.name %}" data-show-time="{{ show.time }}"
                             onclick="handleShowTimeClick(event, this)" class="btn btn-warning btn-sm">{{show.time|date:"h:i A"}}</a>
@@ -52,9 +54,46 @@
 </div>
 
 <script>
+    function convertDate(dateStr) {
+    const date = new Date(dateStr);
+    
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Month is 0-based
+    const year = date.getFullYear();
+
+    return `${day}-${month}-${year}`;
+    }
+
+
+    // Get today's date
+    const today = new Date();
+    // Format the date as DD-MM-YYYY
+    const formattedDate = today.getDate().toString().padStart(2, '0') + '-' +
+                          (today.getMonth() + 1).toString().padStart(2, '0') + '-' +
+                          today.getFullYear();
+
+    // Insert the date into all elements with class "current-date"
+    document.querySelectorAll('.current-date').forEach(cell => {
+        const formattedReleaseDate = convertDate(cell.textContent);
+        if(formattedReleaseDate > formattedDate){
+            cell.textContent = formattedReleaseDate;
+        }else{
+            cell.textContent = formattedDate;
+        }
+        
+    });
+    
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    let today_date = today.toLocaleDateString('en-US', options);
+    // Capitalize the first letter of the month abbreviation and add a period
+    today_date = formattedDate.replace(/(\w+)\s(\d+),\s(\d+)/, (match, p1, p2, p3) => {
+    return `${p1.charAt(0).toUpperCase() + p1.slice(1)}. ${p2}, ${p3}`;
+    });
+
     document.addEventListener("DOMContentLoaded", function () {
         localStorage.setItem("movie_id", "{{movie.id}}");
         localStorage.setItem("user", "{{request.session.email}}")
+        localStorage.setItem("booking_date", today_date)
     });
 
     function handleShowTimeClick(event, element){
@@ -75,7 +114,7 @@
             "X-CSRFToken": getCookie("csrftoken")  // Ensure CSRF protection
           },
           body: JSON.stringify({ user: localStorage.getItem('user'), movieId: localStorage.getItem('movie_id'), 
-                                    showTime: localStorage.getItem('show_time') })
+                                showTime: localStorage.getItem('show_time'), booking_date: localStorage.getItem('booking_date') })
         }).then(response => response.json())
         .then(data => {
           console.log(data); // Logs the JSON response
@@ -93,6 +132,20 @@
 
         
     }
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== "") {
+            const cookies = document.cookie.split(";");
+            for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === `${name}=`) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+            }
+        }
+        return cookieValue;
+        }
 
 </script>
 

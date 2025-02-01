@@ -44,16 +44,20 @@ document.addEventListener("DOMContentLoaded", function () {
             "X-CSRFToken": getCookie("csrftoken")  // Ensure CSRF protection
           },
           body: JSON.stringify({ seats: selectedSeats, user: localStorage.getItem('user'), 
-            movieId: localStorage.getItem('movie_id'), showTime: localStorage.getItem('show_time') })
+            movieId: localStorage.getItem('movie_id'), showTime: localStorage.getItem('show_time'), 
+            booking_date: localStorage.getItem('booking_date')})
         }).then(response => response.json())
         .then(data => {
           console.log(data); // Logs the JSON response
           if (data.message) {
+            if(data.status!="booked"){
+              window.location.href = `/booking_history/`;
+            }
             alert(data.message);
           } else {
             alert("Error occurred while booking.");
           }
-          window.location.href = `/booking_history/`;
+          
         });
       });
 });
