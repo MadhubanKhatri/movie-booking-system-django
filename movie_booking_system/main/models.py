@@ -22,7 +22,7 @@ class Movie(models.Model):
     cast = models.TextField(default='None')
     director = models.CharField(max_length=100, default='None')
     release_date = models.DateField(null=True, blank=True,default='2025-01-01') 
-    #image = models.ImageField(upload_to='movie_images/')
+    image = models.ImageField(upload_to='movie_images/')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
@@ -61,7 +61,7 @@ class Booking(models.Model):
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
     show = models.ForeignKey(Show, on_delete=models.CASCADE, default='1')
     date = models.DateField()
-    time = models.TimeField()
+    time = models.CharField(max_length=100)
     seats = models.CharField(max_length=100)
     amount = models.FloatField()
     status = models.BooleanField(default=False)

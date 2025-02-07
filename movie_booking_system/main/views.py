@@ -109,20 +109,15 @@ def book_seats(request):
         show_time = data.get("showTime")    
         show_time = show_time.replace("p.m.", "PM").replace("a.m.", "AM").replace(".", "")
         show_time = datetime.strptime(show_time, "%I %p").strftime("%H:%M:%S")
-        # current_date = datetime.now().strftime("%Y-%m-%d")
-        amount = len(selected_seats) * 100
-
+        
         date_obj = datetime.strptime(booking_date, "%d-%m-%Y")
-
-        # formatted_date = date_obj.strftime("%b. %d, %Y")
-        # print("Formatted Date:", formatted_date) 
-
         user_obj = RegisterUser.objects.get(email=user)
         movie_obj = Movie.objects.get(id=movieID)
         show_obj = Show.objects.get(movie=movie_obj, time=show_time)
 
-        existing_bookings = Booking.objects.filter(movie=movie_obj,show=show_obj,date=date_obj,time=show_time)
+        amount = len(selected_seats) * show_obj.price
 
+        existing_bookings = Booking.objects.filter(movie=movie_obj,show=show_obj,date=date_obj,time=show_time)
 
         booked_seats = set()
         for booking in existing_bookings:
@@ -145,25 +140,20 @@ def book_seats(request):
 def booked_seats(request):
     if request.method == "POST":
         data = json.loads(request.body)
-        
-        user  = data.get("user")
+    
         movieID = data.get("movieId")
         booking_date = data.get("booking_date")
         show_time = data.get("showTime")  
-
         show_time = show_time.replace("p.m.", "PM").replace("a.m.", "AM").replace(".", "")
-
         show_time = datetime.strptime(show_time, "%I %p").time()
-
-
+        
         date_obj = datetime.strptime(booking_date, "%d-%m-%Y")
         formatted_date = date_obj.strftime("%Y-%m-%d")
-        user_obj = RegisterUser.objects.get(email=user)
         movie_obj = Movie.objects.get(id=movieID)
         show_obj = Show.objects.get(movie=movie_obj, time=show_time)
-        print(show_time)
-        existing_bookings = Booking.objects.filter(movie=movie_obj,show=show_obj,date=formatted_date,time=show_time)
-        print(existing_bookings)
+        existing_bookings = Booking.objects.filter(movie=movie_obj,show=show_obj,
+                                                   date=formatted_date,time=show_time)
+        
         booked_seats = set()
         for booking in existing_bookings:
             booked_seats.update(booking.seats.split(","))

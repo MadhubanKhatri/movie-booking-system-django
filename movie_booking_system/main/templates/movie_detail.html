@@ -12,7 +12,7 @@
 {% load static %}
 <div class="container movie-container shadow rounded bg-white my-4">
     <div class="movie-banner d-flex" style="height: 300px;">
-        <img src="{% static 'captain_america_2.jpg' %}" alt="Movie Poster">
+        <img src="{{movie.image.url }}" alt="{{movie.image.url }}">
         <div class="movie-info mx-5">
             <h1>{{movie.name}}</h1>
             <p>Language: {{movie.langauge}}</p>
@@ -82,22 +82,25 @@
         }
         
     });
-    
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    let today_date = today.toLocaleDateString('en-US', options);
-    // Capitalize the first letter of the month abbreviation and add a period
-    today_date = formattedDate.replace(/(\w+)\s(\d+),\s(\d+)/, (match, p1, p2, p3) => {
-    return `${p1.charAt(0).toUpperCase() + p1.slice(1)}. ${p2}, ${p3}`;
-    });
-
-    document.addEventListener("DOMContentLoaded", function () {
-        localStorage.setItem("movie_id", "{{movie.id}}");
-        localStorage.setItem("user", "{{request.session.email}}")
-        localStorage.setItem("booking_date", today_date)
-    });
+        
 
     function handleShowTimeClick(event, element){
         event.preventDefault(); // Prevent the default navigation
+         
+        // Get the parent row
+        const parentRow = element.closest('tr');
+        
+        // Find the specific date cell
+        const dateCell = parentRow.querySelector('.current-date');
+        
+        if (dateCell) {
+            const showDate = dateCell.textContent.trim();
+            localStorage.setItem("booking_date", showDate);
+        }
+        localStorage.setItem("movie_id", "{{movie.id}}");
+        localStorage.setItem("user", "{{request.session.email}}")
+        
+
         const showTime = element.getAttribute("data-show-time");
         if(showTime == 'noon'){
             localStorage.setItem('show_time', "12 p.m.");
@@ -120,10 +123,6 @@
           console.log(data); // Logs the JSON response
           if (data.status=="Booked") {
             localStorage.setItem('booked_seats', data.booked_seats);
-            // data.booked_seats.forEach(seat => {
-            //     console.log(seat);
-            // //   document.getElementById(seat).classList.add("booked");
-            // });
           } else {
             alert("Error occurred while booking.");
           }

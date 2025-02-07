@@ -25,18 +25,18 @@
     <div class="row w-100">
       {% for movie in search_results %}
         <div class="col-4">
-          <div class="card" style="width: 18rem;">
-            <img src="{% static 'captain_america_2.jpg' %}" class="card-img-top" alt="...">
+          <div class="card" style="width: 18rem; height: 580px;">
+            <img src="{{movie.image.url }}" class="card-img-top" alt="{{movie.image.url}}">
             <div class="card-body">
               <h3>{{movie.name}}</h3>
-              <p class="card-text">{{movie.description|truncatechars:35}}</p>
+              <p class="card-text">{{movie.description|truncatechars:30}}</p>
               <a href="{% url 'movie_detail' movie.id %}" class="btn btn-primary">Book Now</a>
             </div>
           </div>
         </div>
         {% empty %}
           <div class="col-4">
-            <h5>No Upcoming to show</h5>
+            <h5>No Upcoming Shows</h5>
           </div>
       {% endfor %}
             

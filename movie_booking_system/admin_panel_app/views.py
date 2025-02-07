@@ -19,6 +19,7 @@ def admin_login(request):
         return render(request, 'admin_login.html')
 
 
+
 def dashboard(request):
     if 'admin_user' not in request.session:
         return redirect('admin_login')
@@ -50,6 +51,7 @@ def movies(request):
     
 def add_movie(request):
     if request.method == 'POST':
+        image = request.FILES.get('movie_poster')
         movie_name = request.POST['movie_name']
         genre = request.POST['genre']
         director = request.POST['director']
@@ -60,7 +62,7 @@ def add_movie(request):
         cast = request.POST['cast']
 
         addMovie = Movie(name=movie_name, genre=genre, director=director, langauge=language, 
-                         release_date=release_date, description=description, duration=duration, cast=cast)
+                         release_date=release_date, description=description, duration=duration, cast=cast, image=image)
         addMovie.save()
     return redirect('movies')
 
@@ -75,6 +77,7 @@ def edit_movie(request, movie_id):
     if request.method == 'POST':
         get_movie_obj = Movie.objects.get(id=movie_id)
 
+        image = request.FILES.get('movie_poster')
         movie_name = request.POST['movie_name']
         genre = request.POST['genre']
         director = request.POST['director']
@@ -83,6 +86,8 @@ def edit_movie(request, movie_id):
         cast = request.POST['cast']
         release_date = request.POST['release_date']
         description = request.POST['description']
+
+        get_movie_obj.image = image
         get_movie_obj.name = movie_name
         get_movie_obj.genre = genre
         get_movie_obj.director = director

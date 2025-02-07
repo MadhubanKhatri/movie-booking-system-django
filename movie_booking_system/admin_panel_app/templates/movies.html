@@ -18,7 +18,9 @@
                     <th>Movie Name</th>
                     <th>Genre</th>
                     <th>Director</th>
+                    <th>Language</th>                    
                     <th>Duration</th>
+                    <th>Release Date</th>  
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -29,7 +31,9 @@
                         <td>{{movie.name}}</td>
                         <td>{{movie.genre}}</td>
                         <td>{{movie.director}}</td>
+                        <td>{{movie.langauge}}</td>
                         <td>{{movie.duration}}</td>
+                        <td>{{movie.release_date}}</td>
                         <td>
                             <a class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editMovieModal{{movie.id}}">Edit</a>
                             <a href="{% url 'delete_movie' movie.id %}" class="btn btn-sm btn-danger">Delete</a>
@@ -45,8 +49,12 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <form action="{% url 'edit_movie' movie.id %}" method="post">
+                                    <form action="{% url 'edit_movie' movie.id %}" enctype="multipart/form-data" method="post">
                                         {% csrf_token %}
+                                        <div class="mb-3">
+                                            <label for="moviePoster" class="form-label">Movie Poster</label>
+                                            <input type="file" class="form-control" value="{{movie.image.url}}" id="moviePoster" name="movie_poster" required>
+                                        </div>
                                         <div class="mb-3">
                                             <label for="movieName" class="form-label">Movie Name</label>
                                             <input type="text" class="form-control" value="{{movie.name}}" id="movieName" name="movie_name" required>
@@ -106,8 +114,12 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="{% url 'add_movie' %}" method="post">
+                <form action="{% url 'add_movie' %}" enctype="multipart/form-data" method="post">
                     {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="moviePoster" class="form-label">Movie Poster</label>
+                        <input type="file" class="form-control" id="moviePoster" name="movie_poster" required>
+                    </div>
                     <div class="mb-3">
                         <label for="movieName" class="form-label">Movie Name</label>
                         <input type="text" class="form-control" id="movieName" name="movie_name" required>
