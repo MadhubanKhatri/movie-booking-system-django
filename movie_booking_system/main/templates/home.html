@@ -7,23 +7,24 @@
 {% block body %}
 {% load static %}
 <div>
-    <div id="carouselExample" class="carousel slide">
-        <div class="carousel-inner" style="height: 600px; ">
+    <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner" style="height: 680px; ">
           <div class="carousel-item active">
-            <img src="{% static 'endgame5.jpg' %}" class="d-block w-100" alt="endgame">
+            <img src="{% static 'daredevil.jpg' %}" class="d-block w-100" alt="endgame">
           </div>
           <div class="carousel-item">
-            <img src="{% static 'endgame5.jpg' %}" class="d-block w-100" alt="...">
+            <img src="{% static 'endgame7.jpg' %}" class="d-block w-100" alt="...">
           </div>
           <div class="carousel-item">
-            <img src="{% static 'endgame5.jpg' %}" class="d-block w-100" alt="...">
+            <img src="{% static 'nowayhome.jpg' %}" class="d-block w-100" alt="...">
           </div>
+
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
           <span class="carousel-control-prev-icon" aria-hidden="true"></span>
           <span class="visually-hidden">Previous</span>
         </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
           <span class="carousel-control-next-icon" aria-hidden="true"></span>
           <span class="visually-hidden">Next</span>
         </button>
@@ -31,12 +32,15 @@
 </div>
 
 <div class="container my-5">
+  <h2>Upcoming Movies</h2>
   <div class="row w-100">
     <div class="col-4">
       <div class="card" style="width: 18rem;">
-        <img src="{% static 'captain_america_2.jpg' %}" class="card-img-top" alt="...">
+        <img src="{% static 'cap4.jpg' %}" class="card-img-top" alt="...">
         <div class="card-body">
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <p class="card-text">
+            Sam wilson is coming as Captain America to face new problems in world.Ross will become Red Hulk.
+          </p>
           <a href="#" class="btn btn-primary">Book Now</a>
         </div>
       </div>
@@ -44,18 +48,18 @@
 
     <div class="col-4">
       <div class="card" style="width: 18rem;">
-        <img src="{% static 'captain_america_2.jpg' %}" class="card-img-top" alt="...">
+        <img src="{% static 'ff4.png' %}" class="card-img-top" alt="...">
         <div class="card-body">
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <p class="card-text">Reed richards & his fantastic family will appear in fantastic four. They will face Galactus.</p>
           <a href="#" class="btn btn-primary">Book Now</a>
         </div>
       </div>
     </div>
     <div class="col-4">
       <div class="card" style="width: 18rem;">
-        <img src="{% static 'captain_america_2.jpg' %}" class="card-img-top" alt="...">
+        <img src="{% static 'thunderbolts.jpg' %}" class="card-img-top" alt="...">
         <div class="card-body">
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <p class="card-text">Thunderbolts is team of anti-heroes. They will fight with each other or anything else.</p>
           <a href="#" class="btn btn-primary">Book Now</a>
         </div>
       </div>
