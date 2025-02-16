@@ -12,9 +12,23 @@
 {% block body%}
 
 <div class="seat_container">
-    <h2 class="movie-name">Selected Movie: {{movie.name}}</h2>
-    <h3>Seat Selection</h1>
-    <div class="screen">Screen This Way</div>
+    <div class="container w-50 border border-dark btn btn-primary" style="margin-left: 360px; margin-bottom: 20px;">
+        <span>
+            <div class="row">
+                <div class="col">
+                    <span>{{movie.name}}</span> 
+                </div>
+                <div class="col">
+                    <span id="show_date"></span>
+                </div>
+                <div class="col">
+                    <span id="show_time"></span>
+                </div>
+            </div>
+        </span>
+        
+    </div>
+    
 
     <div class="seat-row">
         <div class="seat" data-seat="J1" id="J1">J1</div>
@@ -53,6 +67,65 @@
         <div class="seat" data-seat="J28" id="J28">J28</div>
         <div class="seat" data-seat="J29" id="J29">J29</div>
         <div class="seat" data-seat="J30" id="J30">J30</div>
+    </div>
+
+    <div class="seat-row">
+        <div class="seat" data-seat="J31" id="J31">J31</div>
+        <div class="seat" data-seat="J32" id="J32">J32</div>
+        <div class="seat" data-seat="J33" id="J33">J33</div>
+        <div class="seat" data-seat="J34" id="J34">J34</div>
+        <div class="seat" data-seat="J35" id="J35">J35</div>
+        <div class="seat" data-seat="J36" id="J36">J36</div>
+        <div class="seat" data-seat="J37" id="J37">J37</div>
+        <div class="seat" data-seat="J38" id="J38">J38</div>
+        <div class="seat" data-seat="J39" id="J39">J39</div>
+        <div class="seat" data-seat="J30" id="J30">J30</div>
+    </div>
+
+    <div class="seat-row">
+        <div class="seat" data-seat="J41" id="J41">J41</div>
+        <div class="seat" data-seat="J42" id="J42">J42</div>
+        <div class="seat" data-seat="J43" id="J43">J43</div>
+        <div class="seat" data-seat="J44" id="J44">J44</div>
+        <div class="seat" data-seat="J45" id="J45">J45</div>
+        <div class="seat" data-seat="J46" id="J46">J46</div>
+        <div class="seat" data-seat="J47" id="J47">J47</div>
+        <div class="seat" data-seat="J48" id="J48">J48</div>
+        <div class="seat" data-seat="J49" id="J49">J49</div>
+        <div class="seat" data-seat="J40" id="J40">J40</div>
+    </div>
+
+    <div class="seat-row">
+        <div class="seat" data-seat="J51" id="J51">J51</div>
+        <div class="seat" data-seat="J52" id="J52">J52</div>
+        <div class="seat" data-seat="J53" id="J53">J53</div>
+        <div class="seat" data-seat="J54" id="J54">J54</div>
+        <div class="seat" data-seat="J55" id="J55">J55</div>
+        <div class="seat" data-seat="J56" id="J56">J56</div>
+        <div class="seat" data-seat="J57" id="J57">J57</div>
+        <div class="seat" data-seat="J58" id="J58">J58</div>
+        <div class="seat" data-seat="J59" id="J59">J59</div>
+        <div class="seat" data-seat="J50" id="J50">J50</div>
+    </div>
+
+    <div class="seat-row">
+        <div class="seat" data-seat="J61" id="J61">J61</div>
+        <div class="seat" data-seat="J62" id="J62">J62</div>
+        <div class="seat" data-seat="J63" id="J63">J63</div>
+        <div class="seat" data-seat="J64" id="J64">J64</div>
+        <div class="seat" data-seat="J65" id="J65">J65</div>
+        <div class="seat" data-seat="J66" id="J66">J66</div>
+        <div class="seat" data-seat="J67" id="J67">J67</div>
+        <div class="seat" data-seat="J68" id="J68">J68</div>
+        <div class="seat" data-seat="J69" id="J69">J69</div>
+        <div class="seat" data-seat="J60" id="J60">J60</div>
+    </div>
+
+    <div class="screen">Screen This Way</div>
+
+    <div class="container w-25 success_box border border-dark" id="success_box">
+        <h4 id="success_msg">Booked Successfully!</h4>
+        <button class="btn btn-primary w-100 my-4" id="ok_btn" onclick="confirmOk()">GO TO BOOKING HISTORY</button>
     </div>
 
     <div class="footer">

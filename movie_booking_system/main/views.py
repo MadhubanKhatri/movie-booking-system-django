@@ -1,4 +1,5 @@
 from django.shortcuts import render,redirect
+from django.http import HttpResponse
 from django.contrib import messages
 from .models import RegisterUser, Movie,Booking,Show
 import json
@@ -130,8 +131,8 @@ def book_seats(request):
             return JsonResponse({"message": "Seats are already booked.", "status": "booked"})
         else:
             Booking.objects.create(user=user_obj,movie=movie_obj,show=show_obj,date=date_obj,time=show_time,
-                                seats=",".join(map(str, selected_seats)),amount=amount, status=True)
-            return JsonResponse({"message": "Seats booked successfully", "seats": selected_seats})
+                                 seats=",".join(map(str, selected_seats)),amount=amount, status=True)
+            return JsonResponse({"message": "Seats booked successfully", "seats": selected_seats, "status": "success"})
                 
         
     return JsonResponse({"error": "Invalid request"}, status=400)
@@ -157,7 +158,7 @@ def booked_seats(request):
         booked_seats = set()
         for booking in existing_bookings:
             booked_seats.update(booking.seats.split(","))
-
+        
         return JsonResponse({"status": "Booked", "seats": "Seats are already booked.", "booked_seats": list(booked_seats)})
     else:
         pass
@@ -173,3 +174,5 @@ def booking_history(request):
         return render(request, 'bookings.html', {'bookings': bookings})
     else:
         return redirect('login')
+    
+

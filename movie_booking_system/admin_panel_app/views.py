@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from main.models import Movie, Show, Theatre, RegisterUser, Booking
 from django.utils import timezone
 from datetime import timedelta
+import json
 
 # Create your views here.
 def admin_login(request):
@@ -33,11 +34,22 @@ def dashboard(request):
         most_booked_show = Booking.objects.values('movie__name').annotate(total_bookings=Count('id')).order_by('-total_bookings')[:10]
         most_booked_theatres = Booking.objects.values('show__theatre__name').annotate(total_bookings=Count('id')).order_by('-total_bookings')[:10]
         
+        most_booked_show_label = [show['movie__name'] for show in most_booked_show]
+        most_booked_show_count_label = [show['total_bookings'] for show in most_booked_show]
+        
+        most_booked_theatre_label = [theatre['show__theatre__name'] for theatre in most_booked_theatres]
+        most_booked_theatre_count_label = [theatre['total_bookings'] for theatre in most_booked_theatres]
+
         one_week_ago = timezone.now().date() - timedelta(days=7)
         active_users = Booking.objects.filter(date__gte=one_week_ago).values('user__email').distinct()
         
         param = {'users_count': total_users, 'shows_count': total_shows, 
-                 'tickets_count': total_tickets, 'revenue':total_revenue, 'most_booked_show': most_booked_show, 'most_booked_theatres': most_booked_theatres, 'active_users': active_users}
+                 'tickets_count': total_tickets, 'revenue':total_revenue, 'most_booked_show': most_booked_show, 
+                 'most_booked_theatres': most_booked_theatres, 'active_users': active_users,
+                  'most_booked_show_labels': json.dumps(most_booked_show_label), 
+                  'most_booked_show_count_label': json.dumps(most_booked_show_count_label),
+                  'most_booked_theatre_labels': json.dumps(most_booked_theatre_label),
+                  'most_booked_theatre_count_label': json.dumps(most_booked_theatre_count_label)}  
         return render(request, 'dashboard.html', param)
     
 
@@ -117,7 +129,7 @@ def shows(request):
 def add_show(request):
     if request.method == 'POST':
         movieId = request.POST['movie_id']
-        theatreId = request.POST['movie_id']
+        theatreId = request.POST['theatre_id']
         date = request.POST['date']
         time = request.POST['time']
 

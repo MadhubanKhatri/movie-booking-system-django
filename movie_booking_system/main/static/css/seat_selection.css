@@ -54,6 +54,9 @@
 
 .footer {
     margin-top: 20px;
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
 }
 
 .footer button {
@@ -62,10 +65,30 @@
     color: white;
     background-color: #007bff;
     border: none;
-    border-radius: 5px;
     cursor: pointer;
+    width: 100%;
 }
 
 .footer button:hover {
     background-color: #0056b3;
+}
+
+.show_time{
+    margin-bottom: 30px;
+    
+}
+.show_time span{
+    font-weight: bolder;
+}
+
+.success_box{
+    /* height: 350px; */
+    position: fixed;
+    top: 130px;
+    display: none;
+    border: 2px solid !important;
+    background-color: #6ce971;
+    padding: 100px 10px;
+    text-align: center;
+    justify-content: center;
 }

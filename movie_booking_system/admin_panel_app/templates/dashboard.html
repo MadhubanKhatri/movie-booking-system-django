@@ -5,7 +5,7 @@
 <div class="main-content">
     <h1 class="mb-4">Dashboard</h1>
 
-    <div class="table-container">
+    <div class="table-container my-3">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <div class="card" style="width: 15rem;">
                 <div class="card-body">
@@ -58,73 +58,103 @@
         
     </div>
 
-    <div class="container">
+    <div class="container my-5">
         <div class="row">
             <div class="col">
-                <div class="card my-4" style="width: 15rem;">
-                    <div class="card-body">            
-                        <h5 class="card-title">Most Booked Shows</h5>
-                        {% for show in most_booked_show %}
-                            <div class="row">
-                                <div class="col-9">
-                                    <h6 title="{{show.movie__name}}" class="card-subtitle mb-2  text-body-secondary">
-                                        {{show.movie__name}}
-                                    </h6>
-                                </div>
-                                <div class="col-3">
-                                    <h6 class="card-subtitle mb-2  text-body-secondary">{{show.total_bookings}}</h6>
-                                </div>
-                            </div>
-                        {% endfor %}
-                </div>
-            </div>
+                <h4>Most Booked Show</h4>
+                <canvas id="showChart"></canvas>
             </div>
 
             <div class="col">
-                <div class="card my-4" style="width: 15rem;">
-                    <div class="card-body">            
-                        <h5 class="card-title">Most Booked Theatres</h5>
-                        {% for theatre in most_booked_theatres %}
-                            <div class="row">
-                                <div class="col-9">
-                                    <h6 title="{{theatre.movie__name}}" class="card-subtitle mb-2  text-body-secondary">
-                                        {{theatre.show__theatre__name}}
-                                    </h6>
-                                </div>
-                                <div class="col-3">
-                                    <h6 class="card-subtitle mb-2  text-body-secondary">{{theatre.total_bookings}}</h6>
-                                </div>
-                            </div>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-
-            <div class="col">
-                <div class="card my-4" style="width: 15rem;">
-                    <div class="card-body">            
-                        <h5 class="card-title">Active Users</h5>
-                        {% for user in active_users %}
-                            <div class="row">
-                                <div class="col">
-                                    <h6 title="{{user.user__email}}" class="card-subtitle mb-2  text-body-secondary">
-                                        {{user.user__email}}
-                                    </h6>
-                                </div>
-                                
-                            </div>
-                        {% endfor %}
-                    </div>
-                </div>
+                <h4>Most Booked Theatre</h4>
+                <canvas id="theatreChart"></canvas>
             </div>
         </div>
-        
-
-        
     </div>
 </div>
 
 
+<script>
+    // Most Booked Shows Chart
+
+    var show_labels = JSON.parse(`{{ most_booked_show_labels|safe }}`);
+    var show_data = JSON.parse(`{{ most_booked_show_count_label|safe }}`);
+
+    var ctx1 = document.getElementById('showChart').getContext('2d');
+
+    var ticketChart = new Chart(ctx1, {
+        type: 'pie',
+        data: {
+        labels: show_labels,
+        datasets: [{
+            label: 'Most Booked Shows',
+            data: show_data, // Replace with dynamic data
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.6)',
+                'rgba(54, 162, 235, 0.6)',
+                'rgba(255, 206, 86, 0.6)',
+                'rgba(75, 192, 192, 0.6)'
+            ]
+        }]
+    },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    labels: {
+                        font: {
+                            size: 15 // Increase font size for labels
+                        }
+                    }
+                }
+            }
+    }
+
+    });
+
+
+    // Most Booked Theatres Chart
+    var theatre_labels = JSON.parse(`{{ most_booked_theatre_labels|safe }}`);
+    var theatre_data = JSON.parse(`{{ most_booked_theatre_count_label|safe }}`);
+    
+    var ctx2 = document.getElementById('theatreChart').getContext('2d');
+    
+    var ticketChart = new Chart(ctx2, {
+        type: 'pie',
+        data: {
+        labels: theatre_labels,
+        datasets: [{
+            label: 'Most Theatre Shows',
+            data: theatre_data, // Replace with dynamic data
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.6)',
+                'rgba(54, 162, 235, 0.6)',
+                'rgba(255, 206, 86, 0.6)',
+                'rgba(75, 192, 192, 0.6)'
+            ]
+        }]
+    },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    labels: {
+                        font: {
+                            size: 15 // Increase font size for labels
+                        }
+                    }
+                }
+            }
+    }
+
+    });
+
+    
+
+    
+</script>
 
 
 {% endblock %}
