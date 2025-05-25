@@ -123,15 +123,11 @@
 
     <div class="screen">Screen This Way</div>
 
-    <div class="container w-25 success_box border border-dark" id="success_box">
-        <h4 id="success_msg">Booked Successfully!</h4>
-        <button class="btn btn-primary w-100 my-4" id="ok_btn" onclick="confirmOk()">GO TO BOOKING HISTORY</button>
-    </div>
-
     <div class="footer">
         <button id="confirm-selection" style="display: none;">Proceed to Checkout</button>
     </div>
 </div>
-
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script src="{% static 'script/seat_selection.js' %}"></script>
+
 {% endblock %}

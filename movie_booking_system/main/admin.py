@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import RegisterUser, Booking, Movie, Theatre,Show
+from .models import RegisterUser, Booking, Movie, Theatre,Show, Payment
 
 # Register your models here.
 class RegisterUserAdmin(admin.ModelAdmin):
@@ -55,9 +55,19 @@ class ShowAdmin(admin.ModelAdmin):
     # Add filters
     list_filter = ('price',)
 
+
+class PaymentAdmin(admin.ModelAdmin):
+    # Display fields in the list view
+    list_display = ('user', 'order_id', 'amount', 'payment_status', 'created_at')
+
+    # Add filters
+    list_filter = ('user__name','payment_status')
+
+
 # Register the model with the custom admin class
 admin.site.register(RegisterUser, RegisterUserAdmin)
 admin.site.register(Booking, BookingAdmin)
 admin.site.register(Movie, MovieAdmin)
 admin.site.register(Theatre, TheatreAdmin)
 admin.site.register(Show, ShowAdmin)
+admin.site.register(Payment, PaymentAdmin)

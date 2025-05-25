@@ -37,12 +37,12 @@
             </thead>
             <tbody>
                 {% for show in shows %}
-                    <tr>
+                    <tr data-theatre-id="{{show.theatre.id}}" data-show-price="{{show.price}}">
                         <td>{{show.theatre.name}}</td>
                         <td>{{show.theatre.address}}</td>
                         <td class="current-date">{{show.date}}</td>
                         <td>
-                            <a href="{% url 'seat_selection' show.movie.id show.movie.name %}" data-show-time="{{ show.time }}"
+                            <a href="{% url 'seat_selection' show.movie.id show.movie.name show.price %}" data-show-time="{{ show.time }}"
                             onclick="handleShowTimeClick(event, this)" class="btn btn-warning btn-sm">{{show.time|date:"h:i A"}}</a>
                         </td>
                     </tr>
@@ -99,7 +99,8 @@
         }
         localStorage.setItem("movie_id", "{{movie.id}}");
         localStorage.setItem("user", "{{request.session.email}}")
-        
+        localStorage.setItem("theatre_id", parentRow.dataset.theatreId);
+        localStorage.setItem("show_price", parentRow.dataset.showPrice);
 
         const showTime = element.getAttribute("data-show-time");
         if(showTime == 'noon'){
@@ -117,7 +118,8 @@
             "X-CSRFToken": getCookie("csrftoken")  // Ensure CSRF protection
           },
           body: JSON.stringify({ user: localStorage.getItem('user'), movieId: localStorage.getItem('movie_id'), 
-                                showTime: localStorage.getItem('show_time'), booking_date: localStorage.getItem('booking_date') })
+                                showTime: localStorage.getItem('show_time'), booking_date: localStorage.getItem('booking_date'),
+                                theatre_id: localStorage.getItem('theatre_id') })
         }).then(response => response.json())
         .then(data => {
           console.log(data); // Logs the JSON response
@@ -126,7 +128,7 @@
           } else {
             alert("Error occurred while booking.");
           }
-          window.location.href = `/movie_detail/select_seat/{{movie.id}}/{{movie.name}}/`;
+          window.location.href = `/movie_detail/select_seat/{{movie.id}}/{{movie.name}}/`+localStorage.getItem('show_price')+`/`;
         });
 
         

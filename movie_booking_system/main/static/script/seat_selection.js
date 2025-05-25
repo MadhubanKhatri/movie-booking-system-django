@@ -46,39 +46,46 @@ document.addEventListener("DOMContentLoaded", function () {
          alert("Please select at least one seat to book.");
          return;
        }
-         fetch("/book-seats/", {
-           method: "POST",
-           headers: {
-             "Content-Type": "application/json",
-             "X-CSRFToken": getCookie("csrftoken")  // Ensure CSRF protection
-           },
-           body: JSON.stringify({ seats: selectedSeats, user: localStorage.getItem('user'), 
-             movieId: localStorage.getItem('movie_id'), showTime: localStorage.getItem('show_time'), 
-             booking_date: localStorage.getItem('booking_date')})
-         }).then(response => response.json())
-         .then(data => {
-           if (data.message) {
-             if(data.status == "success"){
-              const success_box = document.getElementById("success_box");
-              const success_msg = document.getElementById("success_msg");
-              success_box.style.display = "block";
-              success_msg.innerText = data.message;
-              
-             }else if(data.status == "booked"){
-              alert(data.message);
-             }
-             
-           } else {
-             alert("Error occurred while booking.");
-           }
+       fetch("/payment_checkout/", {
+          method: "POST",
+          headers: {
+              "Content-Type": "application/json",
+              "X-CSRFToken": getCookie("csrftoken")  // Ensure CSRF protection
+            },
+            body: JSON.stringify({ 
+              seats: selectedSeats, 
+              user: localStorage.getItem('user'), 
+              movieId: localStorage.getItem('movie_id'), 
+              showTime: localStorage.getItem('show_time'), 
+              booking_date: localStorage.getItem('booking_date'),
+              theatre_id: localStorage.getItem('theatre_id'), 
+              show_price: localStorage.getItem('show_price') 
+            })
+       }).then(response => response.json())
+       .then(data => {
+        if(data.message){
+          var options = {
       
-         });
+            // Enter the Key ID generated from the Dashboard
+            key: data.context["razorpay_merchant_key"], 
+            amount: data.context["razorpay_amount"], 
+            currency: data.context["currency"],
+            name: "Dj Razorpay", 
+            order_id: data.context["razorpay_order_id"], 
+            callback_url: data.context["callback_url"],
+          };
+          
+          // initialise razorpay with the options.
+          var rzp1 = new Razorpay(options);
+          rzp1.open();
+
+        }
+       })
+        
        });
 });
 
-function confirmOk(){
-  window.location.href = `/booking_history/`;
-}
+
 
 // Helper function to get CSRF token
 function getCookie(name) {

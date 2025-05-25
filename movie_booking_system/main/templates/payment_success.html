@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    Payment Successful
+{% endblock %}
+
+    
+{% block link %}
+<link rel="stylesheet" href="{% static 'css/payment_success.css' %}">
+{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-5">
+                <div class="message-box _success">
+                    <i class="bi bi-check-circle"></i>
+                    <h2> Your payment of Rs. {{amount}} was successful. </h2>
+                    <p>Your order id <b>{{params_dict.razorpay_order_id}}</b></p>
+                   <p> Thank you for your payment. we will <br>
+                    be in contact with more details shortly </p> 
+                    <p><a href="{% url 'booking_history' %}">Go to Booking History</a></p>    
+            </div> 
+        </div> 
+    </div> 
+
+{% endblock %}
